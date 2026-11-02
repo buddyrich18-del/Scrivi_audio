@@ -1,7 +1,13 @@
 # Transcriber
 
-App Android gratuita e offline che trascrive i vocali WhatsApp (e qualsiasi audio). Motore: Vosk, modello italiano piccolo (~50 MB, scaricato al primo uso).
+Free, offline Android app that transcribes WhatsApp voice messages (and any audio file) with OpenAI Whisper, running on-device through whisper.cpp. Much more accurate than small Vosk models, and it adds punctuation.
 
-Uso: in WhatsApp tieni premuto sul vocale → **Condividi** → **Trascrivi**. Il testo si può copiare o condividere ed è salvato nella cronologia.
+Usage: in WhatsApp, long-press a voice message → **Share** → **Transcriber**. The text can be copied or shared, and is saved in the history.
 
-APK: push su GitHub → scheda **Actions** → ultimo run → artifact `Transcriber-debug`.
+Models (downloaded once, then fully offline):
+- **Precise** — Whisper small, ~180 MB (default)
+- **Fast** — Whisper base, ~57 MB
+
+Language: automatic detection, or pick one in the app.
+
+APK: push to GitHub → **Actions** tab → latest run → artifact `Transcriber-debug` (arm64 phones; the first build takes ~10 minutes).

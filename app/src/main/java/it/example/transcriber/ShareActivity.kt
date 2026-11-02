@@ -36,14 +36,16 @@ class ShareActivity : ComponentActivity() {
 
                 LaunchedEffect(uri) {
                     if (uri == null) { error = "Nessun audio ricevuto"; return@LaunchedEffect }
+                    val model = store.model
+                    val lang = store.language
                     runCatching {
-                        if (!Transcriber.isModelReady(this@ShareActivity)) {
-                            Transcriber.downloadModel(this@ShareActivity) {
+                        if (!Transcriber.isModelReady(this@ShareActivity, model)) {
+                            Transcriber.downloadModel(this@ShareActivity, model) {
                                 status = "Scarico il modello (solo la prima volta)… ${(it * 100).toInt()}%"
                             }
-                            status = "Trascrizione…"
                         }
-                        Transcriber.transcribe(this@ShareActivity, uri)
+                        status = "Trascrizione… può richiedere qualche secondo"
+                        Transcriber.transcribe(this@ShareActivity, uri, model, lang.code)
                     }.onSuccess { text = it; store.add(it) }
                         .onFailure { error = it.message ?: "Errore" }
                 }

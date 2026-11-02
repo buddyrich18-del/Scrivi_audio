@@ -14,6 +14,24 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+
+        ndk {
+            abiFilters += "arm64-v8a"
+        }
+        externalNativeBuild {
+            cmake {
+                cppFlags += "-std=c++17"
+            }
+        }
+    }
+
+    ndkVersion = "26.1.10909125"
+
+    externalNativeBuild {
+        cmake {
+            path = file("src/main/cpp/CMakeLists.txt")
+            version = "3.22.1"
+        }
     }
 
     buildTypes {
@@ -42,6 +60,4 @@ dependencies {
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
-    implementation("net.java.dev.jna:jna:5.13.0@aar")
-    implementation("com.alphacephei:vosk-android:0.3.47")
 }

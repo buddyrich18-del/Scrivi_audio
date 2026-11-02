@@ -7,9 +7,20 @@ import java.io.File
 
 data class Entry(val time: Long, val text: String)
 
-/** Cronologia locale (file JSON nella memoria privata dell'app). */
+/** Cronologia locale (file JSON nella memoria privata dell'app) e impostazioni. */
 class Store(ctx: Context) {
     private val file = File(ctx.filesDir, "history.json")
+    private val prefs = ctx.getSharedPreferences("settings", Context.MODE_PRIVATE)
+
+    /** Modello Whisper scelto (default: small, il più preciso). */
+    var model: WModel
+        get() = Models.byId(prefs.getString("model", "small") ?: "small")
+        set(v) = prefs.edit().putString("model", v.id).apply()
+
+    /** Lingua scelta (default: rilevamento automatico). */
+    var language: Lang
+        get() = Languages.byCode(prefs.getString("lang", "auto") ?: "auto")
+        set(v) = prefs.edit().putString("lang", v.code).apply()
 
     fun load(): List<Entry> {
         if (!file.exists()) return emptyList()
